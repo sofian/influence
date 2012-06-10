@@ -37,29 +37,35 @@ void make_connections()
 
     mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
 
-    sprintf(signame1, "%s/position/x", mdev_name(acs->dev));
+    sprintf(signame1, "%s/position", mdev_name(acs->dev));
 
-    sprintf(signame2, "%s/node/%d/position/x",
+    sprintf(signame2, "%s/node/%d/position",
             acs->vector_device_name, mdev_ordinal(acs->dev));
 
     mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
-
-    sprintf(signame2, "%s/X_Butterfly%d",
-            acs->xagora_device_name, mdev_ordinal(acs->dev));
-
-    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
-
-    sprintf(signame1, "%s/position/y", mdev_name(acs->dev));
-
-    sprintf(signame2, "%s/node/%d/position/y",
-            acs->vector_device_name, mdev_ordinal(acs->dev));
-
-    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
-
-    sprintf(signame2, "%s/Z_Butterfly%d",
-            acs->xagora_device_name, mdev_ordinal(acs->dev));
-
-    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
+//    sprintf(signame1, "%s/position/x", mdev_name(acs->dev));
+//
+//    sprintf(signame2, "%s/node/%d/position/x",
+//            acs->vector_device_name, mdev_ordinal(acs->dev));
+//
+//    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
+//
+//    sprintf(signame2, "%s/X_Butterfly%d",
+//            acs->xagora_device_name, mdev_ordinal(acs->dev));
+//
+//    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
+//
+//    sprintf(signame1, "%s/position/y", mdev_name(acs->dev));
+//
+//    sprintf(signame2, "%s/node/%d/position/y",
+//            acs->vector_device_name, mdev_ordinal(acs->dev));
+//
+//    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
+//
+//    sprintf(signame2, "%s/Z_Butterfly%d",
+//            acs->xagora_device_name, mdev_ordinal(acs->dev));
+//
+//    mapper_monitor_connect(acs->mon, signame1, signame2, 0, 0);
 }
 
 void signal_handler(mapper_signal msig,
@@ -145,14 +151,14 @@ mapper_device autoConnectDevice(mapper_device dev)
      }
      mapper_db_device_done(dbdev);
 
-     dbdev = mapper_db_match_devices_by_name(db, "XAgora_receiver");
-     if (dbdev) {
-         acs->xagora_device_name = strdup((*dbdev)->name);
-         mapper_monitor_link(acs->mon, mdev_name(acs->dev), (*dbdev)->name);
-
-         mapper_monitor_request_links_by_name(acs->mon, (*dbdev)->name);
-     }
-     mapper_db_device_done(dbdev);
+//     dbdev = mapper_db_match_devices_by_name(db, "XAgora_receiver");
+//     if (dbdev) {
+//         acs->xagora_device_name = strdup((*dbdev)->name);
+//         mapper_monitor_link(acs->mon, mdev_name(acs->dev), (*dbdev)->name);
+//
+//         mapper_monitor_request_links_by_name(acs->mon, (*dbdev)->name);
+//     }
+//     mapper_db_device_done(dbdev);
 
      i=0;
      while (i++ < 1000 && !acs->connected) {

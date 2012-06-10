@@ -7,4 +7,4 @@ LDLIBS=$(shell pkg-config --libs libmapper-0) -L../../qualia/build -lqualia
 
 all: qualiaAgent
 
-qualiaAgent: qualiaAgent.o AutoConnect.o InfluenceEnvironment.o
+qualiaAgent: qualiaAgent.o InfluenceEnvironment.o ../AgentAutoConnect.o

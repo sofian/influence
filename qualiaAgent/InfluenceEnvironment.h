@@ -23,34 +23,32 @@
 #include "core/Environment.h"
 #include "rl/RLObservation.h"
 #include "util/Random.h"
-#include "AutoConnect.h"
-#include <mapper/mapper.h>
 
-#define WIDTH  640
-#define HEIGHT 480
+#include <mapper/mapper.h>
 
 class InfluenceEnvironment : public Environment {
 public:
-  mapper_device dev;
-  const char* devNamePrefix;
-  bool autoConnect;
-  int devInitialPort;
-  mapper_signal outsigX, outsigY;
+//  mapper_device dev;
+//  const char* devNamePrefix;
+//  bool autoConnect;
+//  int devInitialPort;
+//  mapper_signal outsig;
+  //mapper_signal outsigX, outsigY;
   RLObservation currentObservation;
   int observationDim, actionDim;
 
   float pos[2];
   float vel[2];
 
-  InfluenceEnvironment(int observationDim, int actionDim, const char *namePrefix, bool autoConnect = false, int initialPort = 9000);
+  InfluenceEnvironment(int observationDim, int actionDim);
   virtual ~InfluenceEnvironment();
 
   virtual void init();
   virtual Observation* start();
   virtual Observation* step(const Action* action);
 
-  static void updateInput(mapper_signal sig, mapper_db_signal props,
-                          mapper_timetag_t *timetag, float *value);
+//  static void updateInput(mapper_signal sig, mapper_db_signal props,
+//                          mapper_timetag_t *timetag, float *value);
 
 
 };

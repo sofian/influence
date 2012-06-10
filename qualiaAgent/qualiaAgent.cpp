@@ -62,10 +62,10 @@ void ctrlc(int sig)
 //unsigned char buffer[STATIC_ALLOCATOR_SIZE];
 //StaticAllocator myAlloc(buffer, STATIC_ALLOCATOR_SIZE);
 int main(int argc, char** argv) {
-  signal(SIGINT, ctrlc);
+  //signal(SIGINT, ctrlc);
 
-  if (argc > 8 || (argc > 1 && strcmp(argv[1], "-h") == 0)) {
-    printf("Usage: %s [n_hidden=%d] [learning_rate=%f] [epsilon=%f] [lambda=%f] [gamma=%f] [dim_observations=%d] [autoconnect=0]\n",
+  if (argc > 7 || (argc > 1 && strcmp(argv[1], "-h") == 0)) {
+    printf("Usage: %s [n_hidden=%d] [learning_rate=%f] [epsilon=%f] [lambda=%f] [gamma=%f] [dim_observations=%d]\n",
             argv[0], N_HIDDEN, LEARNING_RATE, EPSILON, LAMBDA, GAMMA, DIM_OBSERVATIONS);
     exit(-1);
   }
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
   float lambda        = (++arg < argc ? atof(argv[arg]) : LAMBDA);
   float gamma         = (++arg < argc ? atof(argv[arg]) : GAMMA);
   int dimObservations = (++arg < argc ? atoi(argv[arg]) : DIM_OBSERVATIONS);
-  bool autoConnect    = (++arg < argc ? atoi(argv[arg]) : true);
+  //bool autoConnect    = (++arg < argc ? atoi(argv[arg]) : true);
 
   printf("N hidden: %d\n", nHidden);
   printf("Learning rate: %f\n", learningRate);
@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
   NeuralNetwork net(dimObservations + DIM_ACTIONS, nHidden, 1, learningRate);
   QLearningAgent agent(&net, dimObservations, DIM_ACTIONS, N_ACTIONS,
                        lambda, gamma, &egreedy, false); // lambda = 1.0 => no history
-  InfluenceEnvironment env(dimObservations, DIM_ACTIONS, "agent", autoConnect, 9000);
+  InfluenceEnvironment env(dimObservations, DIM_ACTIONS);
   RLQualia qualia(&agent, &env);
 
   qualia.init();
@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
 //    printf("\n");
 #endif
   }
-  autoDisconnectDevice();
+  //autoDisconnectDevice();
 
 //  if (myAlloc.nLeaks)
 //    printf("WARNING: Static Allocator has leaks: %d\n", myAlloc.nLeaks);

@@ -1,11 +1,18 @@
-#ifndef AGENTAUTOCONNECT
-#define AGENTAUTOCONNECT
+#ifndef AGENTAUTOCONNECT_INC
+#define AGENTAUTOCONNECT_INC
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <mapper/mapper.h>
+
+#define WIDTH  500
+#define HEIGHT 500
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _agentInfo
 {
@@ -28,12 +35,7 @@ struct _agentInfo
                   sig_flow;
 } agentInfo;
 
-
 float obs[2];
-
-#define WIDTH  500
-#define HEIGHT 500
-
 int id;
 
 void make_influence_connections();
@@ -56,6 +58,10 @@ void link_db_callback(mapper_db_link record,
 struct _agentInfo *agentInit();
 
 void agentLogout();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif AGENTAUTOCONNECT
 
