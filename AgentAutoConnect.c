@@ -97,6 +97,9 @@ void link_db_callback(mapper_db_link record,
 
 struct _agentInfo *agentInit()
 {
+    obs[0] = obs[1] = 0;
+    id = 0;
+
     struct _agentInfo *info = &agentInfo;
     memset(info, 0, sizeof(struct _agentInfo));
 
@@ -124,19 +127,19 @@ struct _agentInfo *agentInit()
     mdev_add_input(info->dev, "observation", 2, 'f', "norm", &mn, &mx,
                    signal_handler, 0);
     int imn=0, imx=WIDTH;
-    sig_pos = mdev_add_output(info->dev, "position", 2, 'i', 0, &imn, &imx);
-    sig_gain = mdev_add_output(info->dev, "gain", 1, 'f',
+    info->sig_pos = mdev_add_output(info->dev, "position", 2, 'i', 0, &imn, &imx);
+    info->sig_gain = mdev_add_output(info->dev, "gain", 1, 'f',
                                "normalized", &mn, &mx);
     mx = 0.9;
-    sig_fade = mdev_add_output(info->dev, "fade", 1, 'f', "normalized", &mn, &mx);
+    info->sig_fade = mdev_add_output(info->dev, "fade", 1, 'f', "normalized", &mn, &mx);
     mn = -1.5;
     mx = 1.5;
-    sig_spin = mdev_add_output(info->dev, "spin", 1, 'f', "radians", &mn, &mx);
+    info->sig_spin = mdev_add_output(info->dev, "spin", 1, 'f', "radians", &mn, &mx);
     mn = -3.1415926;
     mx = 3.1315926;
-    sig_dir = mdev_add_output(info->dev, "direction", 1, 'f', "radians", &mn, &mx);
+    info->sig_dir = mdev_add_output(info->dev, "direction", 1, 'f', "radians", &mn, &mx);
     mn = -1;
-    sig_flow = mdev_add_output(info->dev, "flow", 1, 'f', "noramlized", &mn, &mx);
+    info->sig_flow = mdev_add_output(info->dev, "flow", 1, 'f', "noramlized", &mn, &mx);
 
     return info;
 }

@@ -24,5 +24,8 @@ all: influence agentConnect
 
 influence: influence.o influence_opengl.o influence_opengl.h
 
+agentConnect: AgentAutoConnect.o
+
 influence.o: influence.c influence_opengl.h
 influence_opengl.o: influence_opengl.c influence_opengl.h
+AgentAutoConnect.o: AgentAutoConnect.c AgentAutoConnect.h

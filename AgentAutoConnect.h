@@ -19,14 +19,22 @@ struct _agentInfo
     mapper_device dev;
     mapper_monitor mon;
     mapper_db db;
+
+    mapper_signal sig_pos,
+                  sig_gain,
+                  sig_spin,
+                  sig_fade,
+                  sig_dir,
+                  sig_flow;
 } agentInfo;
 
-mapper_signal sig_pos = 0,
-              sig_gain = 0,
-              sig_spin = 0,
-              sig_fade = 0,
-              sig_dir = 0,
-              sig_flow = 0;
+
+float obs[2];
+
+#define WIDTH  500
+#define HEIGHT 500
+
+int id;
 
 void make_influence_connections();
 
