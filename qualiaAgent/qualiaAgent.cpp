@@ -35,7 +35,7 @@
 
 // xa, ya, xu, yu, d(a,u), d(a,O), m_a, m_u
 #define DIM_OBSERVATIONS 4
-#define DIM_ACTIONS 1
+#define DIM_ACTIONS 2
 
 // Parameters
 
@@ -47,7 +47,8 @@
 #define LAMBDA 0.3f
 #define GAMMA 0.99f
 
-const unsigned int N_ACTIONS[] = { 2 };
+//const unsigned int N_ACTIONS[] = { 3 }; // left, center, right
+const unsigned int N_ACTIONS[] = { 3, 3 };
 
 #include <stdio.h>
 #include <cstring>

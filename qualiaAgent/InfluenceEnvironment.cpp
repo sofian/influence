@@ -77,15 +77,48 @@ Observation* InfluenceEnvironment::start() {
 Observation* InfluenceEnvironment::step(const Action* action) {
   printf("Stepping env\n");
   // Update velocity depending on chosen action.
-  float gain = 2;
+//  float gain = 2;
   float limit = 1;
+//  float gain = 1;
 
-  float magnet = (action->actions[0] == 0 ? -1 : +1);
-  printf("Action chosen: %d\n", action->actions[0]);
-  //vel[0] = vel[1] = gain;
-  //magnet = 1;
-  vel[0] += magnet * gain * (currentObservation[0] - currentObservation[2]);
-  vel[1] += magnet * gain * (currentObservation[1] - currentObservation[3]);
+  printf("actions: %d %d (%f, %f)\n", (action->actions[0]), (action->actions[1]), vel[0], vel[1]);
+  for (int i=0; i<2; i++)
+    vel[i] += ((float)action->actions[i] - 1.0f) * 0.1;
+
+//  float magnet = (action->actions[0] == 0 ? -1 : +1);
+//  printf("Action chosen: %d\n", action->actions[0]);
+//  float rotationGain = 0.1;
+//  float rot = (action->actions[0] - 1) * rotationGain;
+//
+//  rot = 1;
+//  //  if (action->actions[0] == 0) // left
+//  //    theta -= 0.1;
+//  //  else if (action->actions[0] == 2) // left
+//  //    theta += 0.1;
+//
+//  vel[0] += cos(rot);
+//  vel[1] += sin(rot);
+
+  // Compute velocity in polar.
+
+  /*
+  if (vel[0] == 0) vel[0] = 0.000000000001;
+  float theta = atan(vel[1]/vel[0]);
+  float r     = sqrt(vel[0]*vel[0] + vel[1]*vel[1]);
+
+  theta += 2*M_PI;
+
+  printf("%f %f\n", theta, r);
+  theta += 0.01;
+//  if (action->actions[0] == 0) // left
+//    theta -= 0.1;
+//  else if (action->actions[0] == 2) // left
+//    theta += 0.1;
+
+  vel[0] = r * cos(theta);
+  vel[1] = r * sin(theta);*/
+//  vel[0] += magnet * gain * (currentObservation[0] - currentObservation[2]);
+//  vel[1] += magnet * gain * (currentObservation[1] - currentObservation[3]);
 
   pos[0] += vel[0];
   pos[1] += vel[1];
@@ -95,6 +128,8 @@ Observation* InfluenceEnvironment::step(const Action* action) {
   if (vel[1] >  limit) vel[1] =  limit;
   if (vel[1] < -limit) vel[1] = -limit;
 
+//  pos[0] = (int) (pos[0]) % (WIDTH-1);
+//  pos[1] = (int) (pos[1]) % (HEIGHT-1);
   if (pos[0] < 0) {
     pos[0] = 0;
     vel[0] *= -0.95;
@@ -130,8 +165,20 @@ Observation* InfluenceEnvironment::step(const Action* action) {
 
   // Compute reward.
 
-  memcpy(currentObservation.observations, obs, sizeof(float)*2);
-  currentObservation.reward = sqrt( vel[0]*vel[0] + vel[1]*vel[1] ); // go fast
+  memcpy(currentObservation.observations, obs, sizeof(float)*4);
+  //currentObservation.reward = sqrt( vel[0]*vel[0] + vel[1]*vel[1] ); // go fast
+  float rew1 = 0;
+  for (int i=0; i<(int)currentObservation.dim; i++)
+    rew1 += currentObservation[i];
+  rew1 /= currentObservation.dim;
+
+  float diffX = pos[0] - WIDTH/2;
+  float diffY = pos[1] - HEIGHT/2;
+  float dist = sqrt( diffX*diffX + diffY*diffY ) / (WIDTH / 2);
+  float rew2 = (dist > 0.5 ? 10 : 1) * (-dist);
+
+  // stay away from the center
+  currentObservation.reward = rew1 + rew2;
 
   printf("--> receiving reward = %f, data = %f ...\n", currentObservation.reward, currentObservation[0]);
 
